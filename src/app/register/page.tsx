@@ -7,7 +7,6 @@ import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Field,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
@@ -38,7 +37,7 @@ export default function RegisterPage() {
     }
 
     const {data, error} = await authClient.signUp.email({
-      ...formData as { name: string; imageUrl: string; email: string; password: string },
+      ...formData as { name: string; image: string; email: string; password: string },
     })
     if(data) {
       toast.success("Account created successfully");
@@ -75,9 +74,6 @@ export default function RegisterPage() {
               type="email"
               placeholder="name@example.com"
             />
-            <FieldDescription>
-              We&apos;ll send updates to this address.
-            </FieldDescription>
           </Field>
           <Field>
             <FieldLabel htmlFor="password">Password</FieldLabel>
@@ -90,7 +86,7 @@ export default function RegisterPage() {
             />
           </Field>
           <Field orientation="horizontal">
-            <Button type="submit">Submit</Button>
+            <Button type="submit">Register</Button>
           </Field>
         </FieldGroup>
       </form>
