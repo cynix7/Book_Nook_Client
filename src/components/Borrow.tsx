@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const Borrow = ({ book }: {
     book: {
@@ -48,10 +49,13 @@ returnDate.setDate(returnDate.getDate() + 14);
     const formData = new FormData(e.currentTarget);
     const userEmail = formData.get("userEmail") as string;
 
+    const token=await getTokenFromClient();
+
     const res = await fetch("http://localhost:8000/borrow-book", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            authorization:`Bearer ${token}`
         },
         body: JSON.stringify({
             bookId: book._id, 

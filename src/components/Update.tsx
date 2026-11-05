@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 interface BookType {
     _id: string;
@@ -25,10 +27,12 @@ const Update = ({ book }: { book: BookType }) => {
         const formData = new FormData(e.currentTarget);
         const updatedBook = Object.fromEntries(formData.entries());
         console.log("Updated Book Data:", updatedBook);
+        const token = await getTokenFromClient();
         const res = await fetch(`http://localhost:8000/update-book/${book._id}`, {
             method: "PATCH",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                authorization:`Bearer ${token}`
             },
             body: JSON.stringify({
                 ...updatedBook

@@ -11,6 +11,7 @@ import {
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import Return from "@/components/Return";
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
 interface BorrowType {
   author: string;
@@ -29,8 +30,14 @@ export default async function MyBorrowsPage() {
       headers: await headers() 
   })
   const userEmail = session?.user?.email;
+
+  const token= await getTokenFromServer();
+  
   const res = await fetch(`http://localhost:8000/my-borrows?email=${userEmail}`, {
     cache: "no-store",
+    headers:{
+      authorization: `Bearer ${token}`
+    }
   });
 
   if (!res.ok) {

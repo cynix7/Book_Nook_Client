@@ -1,8 +1,9 @@
-import React from 'react';
+"use client"
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Button } from './ui/button';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { getTokenFromClient } from '@/lib/getTokenFromClient';
 interface BookType {
     _id: string;
     title: string;
@@ -17,8 +18,12 @@ const Delete = ({ book }: { book: BookType }) => {
     const router = useRouter();
 
     const handleDelete = async () => {
+        const token=await getTokenFromClient();
         const res = await fetch(`http://localhost:8000/delete-book/${book._id}`, {
             method: "DELETE",
+            headers:{
+                authorization:`Bearer ${token}`
+            }
         });
         const result = await res.json();
         if(result.success) {

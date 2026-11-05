@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const categories = ["Fiction", "Science", "History", "Kids", "Others"];
 
@@ -23,12 +24,16 @@ export default function AddBookPage() {
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
 
+    const token= await getTokenFromClient();
+
     try {
       const response = await fetch(
         `http://localhost:8000/add-book`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json",
+            authorization:`Bearer ${token}`
+           },
           body: JSON.stringify({ ...data }),
         },
       );
