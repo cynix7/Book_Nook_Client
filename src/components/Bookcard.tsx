@@ -39,7 +39,7 @@ const Bookcard = ({ books }: { books:{ _id: string; title?: string; author?: str
                   {book.author}
                 </p>
                 <Link
-                  href={`/books/${book._id}`}
+                  href={`/all-books/${book._id}`}
                   className={cn(
                     buttonVariants({ variant: "outline" }),
                     "mt-4 w-full transition-colors",
