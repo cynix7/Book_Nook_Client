@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { authClient } from "@/lib/auth-client";
 
 const categories = ["Fiction", "Science", "History", "Kids", "Others"];
 
@@ -42,6 +43,12 @@ export default function AddBookPage() {
       toast.error("Could not add the book. Is the server running?");
     } 
   }
+
+  const {
+      data: session,
+    } = authClient.useSession();
+  
+    const user = session?.user;
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10">
@@ -116,8 +123,8 @@ export default function AddBookPage() {
           <Input
             id="userName"
             name="userName"
-            required
-            placeholder="Your name"
+            defaultValue={user?.name}
+            readOnly
           />
         </div>
 
@@ -127,8 +134,8 @@ export default function AddBookPage() {
             id="userEmail"
             name="userEmail"
             type="email"
-            required
-            placeholder="you@example.com"
+            defaultValue={user?.email}
+            readOnly
           />
         </div>
 

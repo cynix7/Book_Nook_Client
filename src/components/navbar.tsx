@@ -5,7 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+
+
+import { Button,} from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -15,6 +17,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "cn";
+import NavDropdown from "./nav-dropdown";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -39,7 +42,7 @@ function navLinkClassName(active: boolean) {
 export function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-
+  
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background">
       <div className="mx-auto flex h-16 container items-center justify-between px-4">
@@ -69,15 +72,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-2 sm:flex">
-          <Link
-            href="/login"
-            className={buttonVariants({ variant: "ghost" })}
-          >
-            Login
-          </Link>
-          <Link href="/register" className={buttonVariants()}>
-            Register
-          </Link>
+          <NavDropdown></NavDropdown>
         </div>
 
         <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
@@ -116,20 +111,7 @@ export function Navbar() {
               ))}
             </nav>
             <div className="mt-auto flex flex-col gap-2 p-4">
-              <Link
-                href="/login"
-                onClick={() => setMenuOpen(false)}
-                className={buttonVariants({ variant: "ghost", className: "w-full" })}
-              >
-                Login
-              </Link>
-              <Link
-                href="/register"
-                onClick={() => setMenuOpen(false)}
-                className={buttonVariants({ className: "w-full" })}
-              >
-                Register
-              </Link>
+              <NavDropdown></NavDropdown>
             </div>
           </SheetContent>
         </Sheet>
