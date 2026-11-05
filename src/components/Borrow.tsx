@@ -29,6 +29,7 @@ const Borrow = ({ book }: {
         imageUrl: string;
         userEmail: string;
         _id: string;
+        totalCopies: number;
     };
 }) => {
     const router = useRouter();
@@ -42,38 +43,45 @@ const returnDate = new Date();
 returnDate.setDate(returnDate.getDate() + 14);
 
     const handleBorrow = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const userEmail = formData.get("userEmail") as string;
-        const res = await fetch(`http://localhost:8000/borrow-book`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userEmail,
-                title: book.title,
-                imageUrl: book.imageUrl,
-                borrowDate: borrowDate,
-                returnDate: returnDate
+    e.preventDefault();
 
-            })
-        });
-        const result = await res.json();
-        if (result.success) {
-            toast.success("Book borrowed successfully!");
-           router.push(`/all-books/${book._id}`);
-        }
-        if (!result.success) {
-            const errorData = await res.json();
-            toast.error(`Error: ${errorData.message}`);
-        }
-    };
+    const formData = new FormData(e.currentTarget);
+    const userEmail = formData.get("userEmail") as string;
+
+    const res = await fetch("http://localhost:8000/borrow-book", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            bookId: book._id, 
+            userEmail,
+            title: book.title,
+            imageUrl: book.imageUrl,
+            borrowDate,
+            returnDate,
+        }),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+        toast.error(result.message || "Failed to borrow book");
+        return;
+    }
+
+    toast.success("Book borrowed successfully!");
+    router.push(`/all-books/${book._id}`);
+};
 
     return (
         <Dialog>
             <DialogTrigger render={
-                <Button variant="outline">Borrow This Book</Button>
+                book.totalCopies > 0 ? (
+  <Button variant={"outline"}>Borrow</Button>
+) : (
+  <Button disabled>Not Available</Button>
+)
             } />
 
             <DialogContent className="sm:max-w-sm">

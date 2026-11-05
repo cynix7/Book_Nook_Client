@@ -48,6 +48,12 @@ export default function LogInPage() {
 
   }
 
+  const handleGoogle= async()=>{
+    await authClient.signIn.social({
+    provider: "google",
+  });
+  }
+
   return (
     <div className="container mx-auto">
       <form onSubmit={handleSubmit}>
@@ -74,6 +80,7 @@ export default function LogInPage() {
           </Field>
           <Field orientation="horizontal">
             <Button type="submit">Login</Button>
+            <Button variant={"outline"} onClick={handleGoogle}>Sign In With Google</Button>
           </Field>
         </FieldGroup>
       </form>

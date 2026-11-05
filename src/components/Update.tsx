@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
-import toast  from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 interface BookType {
@@ -15,6 +15,7 @@ interface BookType {
     description: string;
     imageUrl: string;
     userEmail: string;
+    totalCopies: number;
 }
 
 const Update = ({ book }: { book: BookType }) => {
@@ -31,13 +32,13 @@ const Update = ({ book }: { book: BookType }) => {
             },
             body: JSON.stringify({
                 ...updatedBook
-                
+
             })
         });
         const result = await res.json();
         if (result.success) {
             toast.success("Book updated successfully!");
-           router.refresh();
+            router.refresh();
         }
         if (!result.success) {
             const errorData = await res.json();
@@ -105,6 +106,19 @@ const Update = ({ book }: { book: BookType }) => {
                             name="description"
                             defaultValue={book.description}
                             required
+                        />
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="totalCopies">Total Copies</Label>
+                        <Input
+                            id="totalCopies"
+                            name="totalCopies"
+                            type="number"
+                            min="1"
+                            defaultValue={book.totalCopies}
+                            required
+                            placeholder="Enter total copies"
                         />
                     </div>
 

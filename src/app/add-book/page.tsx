@@ -32,23 +32,26 @@ export default function AddBookPage() {
           body: JSON.stringify({ ...data }),
         },
       );
+      const result = await response.json();
 
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
+      if (result.success) {
+        toast.success("Book added successfully!");
+        form.reset();
+      } else {
+        toast.error(result.message || "Failed to add the book.");
       }
 
-      toast.success("Book added successfully");
-      form.reset();
+
     } catch {
       toast.error("Could not add the book. Is the server running?");
-    } 
+    }
   }
 
   const {
-      data: session,
-    } = authClient.useSession();
-  
-    const user = session?.user;
+    data: session,
+  } = authClient.useSession();
+
+  const user = session?.user;
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10">
@@ -115,6 +118,18 @@ export default function AddBookPage() {
             name="description"
             required
             placeholder="A short summary of the book..."
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="totalCopies">Total Copies</Label>
+          <Input
+            id="totalCopies"
+            name="totalCopies"
+            type="number"
+            min="1"
+            required
+            placeholder="Enter total copies"
           />
         </div>
 

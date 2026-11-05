@@ -17,6 +17,7 @@ const BookDetails = ({ book }: {
     imageUrl: string;
     userEmail: string;
     _id: string;
+    totalCopies: number;
   }
 
 }) => {
@@ -78,6 +79,9 @@ const BookDetails = ({ book }: {
                 </p>
               </div>
             </div>
+            <p className="text-sm">
+  Available Copies: {book.totalCopies}
+</p>
 
             <Borrow book={book} />
 
