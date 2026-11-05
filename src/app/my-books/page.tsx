@@ -1,10 +1,21 @@
-export default function MyBooksPage() {
+import MyBooks from "@/components/MyBooks";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+
+export default async function MyBooksPage() {
+  const session = await auth.api.getSession({
+    headers: await headers() 
+})
+const userEmail = session?.user?.email;
+  
+  const res = await fetch(
+  `http://localhost:8000/my-books?email=${userEmail}`
+);
+
+const books = await res.json();
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10">
-      <h1 className="text-2xl font-bold">My Books</h1>
-      <p className="mt-2 text-sm text-muted-foreground">
-        This page is coming soon.
-      </p>
-    </main>
+    <div>
+      <MyBooks books={books} />
+    </div>
   );
 }
