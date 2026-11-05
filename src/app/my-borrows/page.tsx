@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 
 import {
   Table,
@@ -11,8 +10,12 @@ import {
 } from "@/components/ui/table";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import Return from "@/components/Return";
 
 interface BorrowType {
+  author: string;
+  category: string;
+  description: string;
   _id: string;
   title: string;
   imageUrl: string;
@@ -95,9 +98,7 @@ export default async function MyBorrowsPage() {
                   </TableCell>
 
                   <TableCell className="text-right">
-                    <Button variant="destructive" size="sm">
-                      Return Book
-                    </Button>
+                    <Return book={book} />
                   </TableCell>
                 </TableRow>
               ))}
