@@ -15,5 +15,5 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/my-books","/add-book","/my-borrows"], // Specify the routes the middleware applies to
+  matcher: ["/my-books","/add-book","/my-borrows","/all-books/:id"], 
 };

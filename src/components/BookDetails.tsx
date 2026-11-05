@@ -5,8 +5,8 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
 import { UserRound } from "lucide-react";
+import Borrow from "./Borrow";
 
 const BookDetails = ({ book }: {
   book: {
@@ -16,6 +16,7 @@ const BookDetails = ({ book }: {
     description: string;
     imageUrl: string;
     userEmail: string;
+    _id: string;
   }
 
 }) => {
@@ -78,9 +79,7 @@ const BookDetails = ({ book }: {
               </div>
             </div>
 
-            <div className="mt-auto pt-4">
-                <Button>Borrow This Book</Button>
-            </div>
+            <Borrow book={book} />
 
           </div>
         </CardContent>
